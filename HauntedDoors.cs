@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Oxide.Plugins
 {
-    [Info("HauntedDoors", "RustFlash", "1.2.0")]
+    [Info("HauntedDoors", "RustFlash", "1.4.0")]
     [Description("Spawns scary ghosts when opening double doors")]
     public class HauntedDoors : RustPlugin
     {
@@ -242,7 +242,7 @@ namespace Oxide.Plugins
                     for (int i = 0; i < 25; i++)
                         npc.baseProtection.amounts[i] = 999999f;
                     
-                    npc.SetFlag(BaseEntity.Flags.Reserved8, true);
+                    npc.SetFlagLocal(BaseEntity.Flags.Reserved8, true);
                     
                     var navigator = npc.GetComponent<NPCPlayerNavigator>();
                     if (navigator != null)
@@ -266,7 +266,7 @@ namespace Oxide.Plugins
                 for (int i = 0; i < 25; i++)
                     scarecrow.baseProtection.amounts[i] = 999999f;
                 
-                scarecrow.SetFlag(BaseEntity.Flags.Reserved8, true);
+                scarecrow.SetFlagLocal(BaseEntity.Flags.Reserved8, true);
                 
                 var brain = scarecrow.GetComponent<ScarecrowBrain>();
                 if (brain != null)
@@ -285,7 +285,7 @@ namespace Oxide.Plugins
                     for (int i = 0; i < 25; i++)
                         combatEntity.baseProtection.amounts[i] = 999999f;
                     
-                    combatEntity.SetFlag(BaseEntity.Flags.Reserved8, true);
+                    combatEntity.SetFlagLocal(BaseEntity.Flags.Reserved8, true);
                 }
                 
                 if (player != null && !player.IsDestroyed)
@@ -298,7 +298,8 @@ namespace Oxide.Plugins
             
             ghost.EnableSaving(false);
             ghost.EnableGlobalBroadcast(false);
-            ghost.SetFlag(BaseEntity.Flags.Reserved8, true);
+            ghost.SetFlagLocal(BaseEntity.Flags.Reserved8, true);
+            ghost.SendNetworkUpdate();
         }
         
         private void DespawnGhost(BaseEntity ghost, BasePlayer player)
